@@ -49,6 +49,11 @@ public:
         std::copy(std::begin(str), std::end(str), static_cast<char*>(data()));
     }
 
+    explicit frame( uint64_t value ) : frame( sizeof( uint64_t ) )
+    {
+        memcpy( static_cast<char*>(data()), &value, sizeof( uint64_t ) );
+    }
+
     frame& operator=(frame const& other)
     {
         frame tmp(other);
@@ -69,8 +74,6 @@ public:
 
 namespace std {
 
-std::string to_string(boost::asio::zmq::frame const& frame)
-{
-    return std::string(static_cast<char const*>(frame.data()), frame.size());
-}
+extern std::string to_string(boost::asio::zmq::frame const& frame);
+
 }

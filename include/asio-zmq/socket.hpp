@@ -8,6 +8,8 @@
 #include <boost/asio/io_service.hpp>
 #include <boost/system/error_code.hpp>
 #include <zmq.h>
+#include <czmq.h>
+
 #include "helpers.hpp"
 #include "socket_option.hpp"
 #include "context.hpp"
@@ -105,6 +107,21 @@ public:
     void connect(string const& endpoint)
     {
         if (0 != zmq_connect(zsock_.get(), endpoint.c_str())) throw exception();
+    }
+
+    void subscribe( string const & topic )
+    {
+        zsocket_set_subscribe( zsock_.get(), topic.c_str() );
+    }
+
+    void disconnect(string const& endpoint)
+    {
+        if (0 != zmq_disconnect(zsock_.get(), endpoint.c_str())) throw exception();
+    }
+
+    void unsubscribe( string const & topic )
+    {
+        zsocket_set_unsubscribe( zsock_.get(), topic.c_str() );
     }
 
     bool is_readable() const

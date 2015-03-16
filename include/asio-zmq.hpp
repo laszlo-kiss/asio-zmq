@@ -1,3 +1,5 @@
+#pragma once
+
 #include "asio-zmq/helpers.hpp"
 #include "asio-zmq/error.hpp"
 #include "asio-zmq/exception.hpp"
