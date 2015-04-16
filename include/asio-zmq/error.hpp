@@ -19,16 +19,24 @@ struct zmq_error_category_impl : public system::error_category {
     virtual std::string message(int ev) const noexcept { return ::zmq_strerror(ev); }
 };
 
+#if 1
+extern const system::error_category& zmq_category();
+#else
 const system::error_category& zmq_category()
 {
     static zmq_error_category_impl instance;
     return instance;
 }
+#endif
 
+#if 1
+extern system::error_code make_error_code(zmq_error e);
+#else
 system::error_code make_error_code(zmq_error e)
 {
     return system::error_code(static_cast<int>(e), zmq_category());
 }
+#endif
 
 }  // namespace error
 }  // namespace asio
